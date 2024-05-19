@@ -2,11 +2,12 @@
   import svelteLogo from './assets/svelte.svg'
   import viteLogo from '/vite.svg'
   import Counter from './lib/Counter.svelte'
-    import Escape from './Escape.svelte';
+  import Escape from './Escape.svelte';
+  import NetLogo from './assets/netpaed_jena_logoTrans.png';
 </script>
 
 <main class="grid items-center h-full flex-col">
-    <h1 class="mx-auto text-xl" >Netpäd Jena</h1>
+    <img alt='' class="mx-auto aspect-auto max-w-28" src={NetLogo}/>
     <Escape />
 </main>
 

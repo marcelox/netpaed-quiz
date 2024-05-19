@@ -43,18 +43,18 @@
   };
 </script>
 
-<div class="max-w-2xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
-  <div class="mb-6 flex justify-between items-center">
-    <h2 class="text-xl font-semibold text-gray-800">Escape Room Game</h2>
+<div class="mx-28 p-8 bg-gray-50 shadow-lg rounded-lg">
+  <div class="mb-6">
+    <h2 class="bebas-neue-regular text-7xl font-semibold text-gray-800">Escape Game</h2>
     <div class="text-right">
-      <p>Geschafft: {currentPuzzleIndex + 1} / {puzzles.length}</p>
-      <p>Korrekte Antworten: {correctAnswersCount}</p>
+      <p class="text-xl">Schritte: {currentPuzzleIndex + 1} / {puzzles.length}</p>
+      <p class="text-xl">Korrekte Antworten: {correctAnswersCount}</p>
     </div>
   </div>
   
   {#if currentPuzzleIndex < puzzles.length}
     <div class="mb-6">
-      <h3 class="text-xl font-semibold text-gray-800">Puzzle {currentPuzzleIndex + 1}</h3>
+      <h3 class="text-xl font-semibold text-gray-800">Rätsel Nr. {currentPuzzleIndex + 1}</h3>
       <div class="embed-responsive aspect-ratio-16/9 mb-4">
         <iframe class="embed-responsive-item w-full h-full" src={puzzles[currentPuzzleIndex].videoLink} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
@@ -67,7 +67,7 @@
         class="border border-gray-300 p-2 w-full rounded"
         type="text"
         bind:value={userAnswer}
-        placeholder="Your answer"
+        placeholder="Deine Antwort"
       />
     </div>
     <div class="flex justify-between items-center">
@@ -75,13 +75,13 @@
         class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors"
         on:click={handleSubmit}
       >
-        Submit
+        Senden
       </button>
       <button
         class="bg-gray-600 text-white py-2 px-4 rounded hover:bg-gray-700 transition-colors"
         on:click={handleShowHint}
       >
-        Hint
+        Tipp
       </button>
     </div>
     {#if showHint}
