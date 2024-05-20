@@ -1,4 +1,6 @@
 <script>
+  import confetti from 'canvas-confetti';
+
   let currentPuzzleIndex = 0;
   let userAnswer = '';
   let showHint = false;
@@ -28,6 +30,13 @@
   const handleSubmit = () => {
     if (userAnswer.toLowerCase() === puzzles[currentPuzzleIndex].correctAnswer) {
       correctAnswersCount += 1;
+
+      // Trigger confetti
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
     }
     if (currentPuzzleIndex < puzzles.length - 1) {
       currentPuzzleIndex += 1;
@@ -45,7 +54,7 @@
 
 <div class="mx-28 p-8 bg-gray-50 shadow-lg rounded-lg">
   <div class="mb-6">
-    <h2 class="bebas-neue-regular text-7xl font-semibold text-gray-800">Escape Game</h2>
+    <h2 class="bebas-neue-regular text-7xl font-semibold text-gray-800 text-blue-700">Escape Game</h2>
     <div class="text-right">
       <p class="text-xl">Schritte: {currentPuzzleIndex + 1} / {puzzles.length}</p>
       <p class="text-xl">Korrekte Antworten: {correctAnswersCount}</p>
