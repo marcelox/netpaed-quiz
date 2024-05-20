@@ -1,9 +1,10 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
+  darkMode: 'class', // Enable class-based dark mode
   content: [
-        "./index.html",
-        "./src/**/*.{svelte,js,ts,jsx,tsx}",
-    ],
+    './public/index.html',
+    './src/**/*.{svelte,js,ts}',
+  ],
   theme: {
     extend: {},
   },
@@ -11,6 +12,6 @@ export default {
     require('@tailwindcss/forms'),
     require('@tailwindcss/typography'),
     require('@tailwindcss/aspect-ratio'),
-    ],
-}
+  ],
+};
 

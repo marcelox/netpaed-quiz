@@ -6,7 +6,7 @@
   import NetLogo from './assets/netpaed_jena_logoTrans.png';
 </script>
 
-<main class="grid items-center h-full flex-col">
+<main class="grid grid-rows-[100px_1fr_100px] h-full">
     <img alt='' class="mx-auto aspect-auto max-w-28" src={NetLogo}/>
     <Escape />
 </main>
