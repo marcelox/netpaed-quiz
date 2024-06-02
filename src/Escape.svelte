@@ -93,7 +93,7 @@
 
     <div class="mb-6 flex justify-end">
       <Toggle checked={isDarkMode} on:change={toggleDarkMode}>
-        <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Dark Mode</span>
+        <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">{isDarkMode ? 'Heller' : 'Dunkler'} Modus</span>
       </Toggle>
     </div>
 
