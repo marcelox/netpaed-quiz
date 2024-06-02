@@ -10,5 +10,3 @@
   <img alt="" class="mx-auto aspect-auto max-w-28" src={NetLogo} />
   <Escape />
 </main>
-
-<style></style>
