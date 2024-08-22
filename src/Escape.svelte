@@ -3,6 +3,7 @@
   import { onMount } from "svelte";
   import { Input, Label, Toggle, Radio } from "flowbite-svelte";
   import quizData from './quizData.json';
+  import { show_video } from "./store.js";
 
   let currentPuzzleIndex = 0;
   let userAnswer = "";
@@ -76,7 +77,7 @@
   });
 </script>
 
-<div class="quiz-container">
+<div class="quiz-container" style="display: {$show_video}">
   <div class="quiz-header">
     <h2 class="mr-10">Station 4:<br> Influencer:innen und Werbung</h2>
     <ul class="font-bold text-s">
