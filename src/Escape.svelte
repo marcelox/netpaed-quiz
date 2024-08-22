@@ -2,6 +2,7 @@
   import confetti from "canvas-confetti";
   import { onMount } from "svelte";
   import { Input, Label, Toggle, Radio } from "flowbite-svelte";
+  import quizData from './quizData.json';
 
   let currentPuzzleIndex = 0;
   let userAnswer = "";
@@ -12,59 +13,7 @@
   let finalAnswer = "";
   let showFinalFeedback = false;
   let coins = 0;
-
-  const puzzles = [
-    {
-      question: "Was ist ein typisches Merkmal von Influencern?",
-      options: [
-        "A) Sie haben viele Follower in sozialen Medien und präsentieren oft Produkte.",
-        "B) Sie sind nur im Fernsehen aktiv und meiden soziale Medien.",
-        "C) Sie lehnen jede Zusammenarbeit mit Marken ab.",
-        "D) Sie teilen nur wissenschaftliche Artikel und Studien."
-      ],
-      correctAnswer: "A",
-      explanation: "Influencer sind für ihre große Fangemeinde in den sozialen Medien und ihre häufigen Produktwerbung bekannt."
-    },
-    {
-      question: "Wie wirken Filter und Bearbeitungs-Apps auf die Fotos von Influencern?",
-      options: [
-        "A) Sie machen die Fotos unschärfer und weniger attraktiv.",
-        "B) Sie verbessern die Bildqualität und können das Aussehen verändern.",
-        "C) Sie fügen nur zufällige Farben hinzu, ohne das Aussehen zu verändern.",
-        "D) Sie verringern die Anzahl der Follower."
-      ],
-      correctAnswer: "B",
-      explanation: "Filter und Bearbeitungs-Apps verbessern die Fotoqualität und können das Aussehen erheblich verändern."
-    },
-    {
-      question: "Warum wirken Influencer oft perfekt?",
-      options: [
-        "A) Weil sie immer ehrlich und transparent über ihr Leben berichten.",
-        "B) Weil sie ihre Inhalte sorgfältig auswählen und bearbeiten, um ein ideales Bild zu präsentieren.",
-        "C) Weil sie nur wissenschaftlich fundierte Informationen teilen.",
-        "D) Weil sie nie Werbung für Produkte machen."
-      ],
-      correctAnswer: "B",
-      explanation: "Influencer kuratieren und bearbeiten ihre Inhalte oft, um eine idealisierte Version ihrer selbst zu präsentieren."
-    },
-    {
-      question: "Wie können Follower beeinflusst werden, wenn sie Influencern folgen?",
-      options: [
-        "A) Follower bleiben immer kritisch und denken selbst nach.",
-        "B) Follower könnten denken, dass sie die Influencer wirklich kennen, und alles glauben, was sie sagen.",
-        "C) Follower verlieren das Interesse an den Inhalten.",
-        "D) Follower versuchen, persönliche Freundschaften mit den Influencern aufzubauen."
-      ],
-      correctAnswer: "B",
-      explanation: "Die Follower fühlen sich möglicherweise mit den Influencern persönlich verbunden und vertrauen ihren Empfehlungen."
-    },
-    {
-      question: "Wie ist das Lösungswort?",
-      options: [],
-      correctAnswer: "ABBBC",
-      explanation: "Die richtige Lösung ergab sich aus den Hinweisen in den vorherigen Fragen."
-    },
-  ];
+  let puzzles = quizData.puzzles;
 
   const handleSubmit = () => {
     if (currentPuzzleIndex < puzzles.length - 1) {
