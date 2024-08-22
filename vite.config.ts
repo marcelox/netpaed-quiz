@@ -5,6 +5,7 @@ export default defineConfig({
   plugins: [svelte()],
   css: {
     postcss: './postcss.config.js'
-  }
+  },
+  base: '/netpaed-quiz/',
 });
 
