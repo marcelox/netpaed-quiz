@@ -1,61 +1,111 @@
 <script>
   import confetti from "canvas-confetti";
   import { onMount } from "svelte";
-  import { Input, Label, Toggle } from "flowbite-svelte";
-
+  import { Input, Label, Toggle, Radio } from "flowbite-svelte";
 
   let currentPuzzleIndex = 0;
   let userAnswer = "";
-  let showHint = false;
   let correctAnswersCount = 0;
   let isDarkMode = false;
+  let showCorrectAnswer = false;
+  let isAnswerCorrect = false;
+  let finalAnswer = "";
+  let showFinalFeedback = false;
+  let coins = 0;
 
   const puzzles = [
     {
-      question: "What color was the ball in the video?",
-      hint: "Think about the most striking color.",
-      correctAnswer: "red",
-      videoLink: "https://www.youtube.com/embed/3RBlqxAKbuE",
+      question: "Was ist ein typisches Merkmal von Influencern?",
+      options: [
+        "A) Sie haben viele Follower in sozialen Medien und präsentieren oft Produkte.",
+        "B) Sie sind nur im Fernsehen aktiv und meiden soziale Medien.",
+        "C) Sie lehnen jede Zusammenarbeit mit Marken ab.",
+        "D) Sie teilen nur wissenschaftliche Artikel und Studien."
+      ],
+      correctAnswer: "A",
+      explanation: "Influencer sind für ihre große Fangemeinde in den sozialen Medien und ihre häufigen Produktwerbung bekannt."
     },
     {
-      question: "What was the main theme of the video?",
-      hint: "It’s related to nature.",
-      correctAnswer: "forest",
-      videoLink: "https://www.youtube.com/embed/mC6u_9ZzDvo",
+      question: "Wie wirken Filter und Bearbeitungs-Apps auf die Fotos von Influencern?",
+      options: [
+        "A) Sie machen die Fotos unschärfer und weniger attraktiv.",
+        "B) Sie verbessern die Bildqualität und können das Aussehen verändern.",
+        "C) Sie fügen nur zufällige Farben hinzu, ohne das Aussehen zu verändern.",
+        "D) Sie verringern die Anzahl der Follower."
+      ],
+      correctAnswer: "B",
+      explanation: "Filter und Bearbeitungs-Apps verbessern die Fotoqualität und können das Aussehen erheblich verändern."
     },
     {
-      question: "Who was the main character in the video?",
-      hint: "Think about the person who appeared the most.",
-      correctAnswer: "john",
-      videoLink: "https://www.youtube.com/embed/NpEaa2P7qZI",
+      question: "Warum wirken Influencer oft perfekt?",
+      options: [
+        "A) Weil sie immer ehrlich und transparent über ihr Leben berichten.",
+        "B) Weil sie ihre Inhalte sorgfältig auswählen und bearbeiten, um ein ideales Bild zu präsentieren.",
+        "C) Weil sie nur wissenschaftlich fundierte Informationen teilen.",
+        "D) Weil sie nie Werbung für Produkte machen."
+      ],
+      correctAnswer: "B",
+      explanation: "Influencer kuratieren und bearbeiten ihre Inhalte oft, um eine idealisierte Version ihrer selbst zu präsentieren."
+    },
+    {
+      question: "Wie können Follower beeinflusst werden, wenn sie Influencern folgen?",
+      options: [
+        "A) Follower bleiben immer kritisch und denken selbst nach.",
+        "B) Follower könnten denken, dass sie die Influencer wirklich kennen, und alles glauben, was sie sagen.",
+        "C) Follower verlieren das Interesse an den Inhalten.",
+        "D) Follower versuchen, persönliche Freundschaften mit den Influencern aufzubauen."
+      ],
+      correctAnswer: "B",
+      explanation: "Die Follower fühlen sich möglicherweise mit den Influencern persönlich verbunden und vertrauen ihren Empfehlungen."
+    },
+    {
+      question: "Wie ist das Lösungswort?",
+      options: [],
+      correctAnswer: "ABBBC",
+      explanation: "Die richtige Lösung ergab sich aus den Hinweisen in den vorherigen Fragen."
     },
   ];
 
   const handleSubmit = () => {
-    if (
-      userAnswer.toLowerCase() === puzzles[currentPuzzleIndex].correctAnswer
-    ) {
-      correctAnswersCount += 1;
-      // Trigger confetti
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 },
-      });
-    }
     if (currentPuzzleIndex < puzzles.length - 1) {
-      currentPuzzleIndex += 1;
-      userAnswer = "";
-      showHint = false;
+      if (userAnswer === puzzles[currentPuzzleIndex].correctAnswer) {
+        correctAnswersCount += 1;
+        isAnswerCorrect = true;
+        // Trigger confetti for correct answer
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 },
+        });
+      } else {
+        isAnswerCorrect = false;
+      }
+      showCorrectAnswer = true;
     } else {
-      alert(
-        `Congratulations! You've completed the escape game with ${correctAnswersCount} correct answers.`,
-      );
+      if (finalAnswer === puzzles[currentPuzzleIndex].correctAnswer) {
+        isAnswerCorrect = true;
+        coins += 1;
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 },
+        });
+      } else {
+        isAnswerCorrect = false;
+      }
+      showFinalFeedback = true;
     }
   };
 
-  const handleShowHint = () => {
-    showHint = true;
+  const handleNext = () => {
+    if (currentPuzzleIndex < puzzles.length - 1) {
+      currentPuzzleIndex += 1;
+      userAnswer = "";
+      showCorrectAnswer = false;
+      isAnswerCorrect = false;
+    } else {
+      alert(`Gratulation! Du haust ${correctAnswersCount} richtige Antworten und hast ${coins} coin(s) verdient!`);
+    }
   };
 
   // Toggle Dark Mode
@@ -77,108 +127,228 @@
   });
 </script>
 
-<div class="flex items-center">
-  <div
-    class="mx-auto max-w-xl w-full min-w-l p-6 dark:bg-gray-800 dark:text-gray-200 shadow-lg rounded-lg"
-  >
-    <div class="mb-6 flex justify-between items-center">
-      <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">
-        Escape Room Game
-      </h2>
-      <div class="text-right">
-        <p>Progress: {currentPuzzleIndex + 1} / {puzzles.length}</p>
-        <p>Correct Answers: {correctAnswersCount}</p>
-      </div>
+<div class="quiz-container">
+  <div class="quiz-header">
+    <h2 class="mr-10">Station 4:<br> Influencer:innen und Werbung</h2>
+    <ul class="font-bold text-s">
+      <li>Fortschritt: {currentPuzzleIndex + 1} / {puzzles.length}</li>
+      <li>Richtige Antworten: {correctAnswersCount}</li>
+      <li>Coins: {coins}</li>
+    </ul>
+  </div>
+
+  <div class="toggle-container">
+    <Toggle checked={isDarkMode} on:change={toggleDarkMode}>
+      <span>{isDarkMode ? 'Heller' : 'Dunkler'} Modus</span>
+    </Toggle>
+  </div>
+
+  {#if currentPuzzleIndex < puzzles.length - 1}
+    <div class="question">
+      {puzzles[currentPuzzleIndex].question}
     </div>
 
-    <div class="mb-6 flex justify-end">
-      <Toggle checked={isDarkMode} on:change={toggleDarkMode}>
-        <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">{isDarkMode ? 'Heller' : 'Dunkler'} Modus</span>
-      </Toggle>
+    <div class="options-container">
+      {#each puzzles[currentPuzzleIndex].options as option, index}
+        <div class="mb-2">
+          <input
+            type="radio"
+            id={`option-${index}`}
+            value={option.charAt(0)}
+            bind:group={userAnswer}
+          />
+          <label
+            for={`option-${index}`}
+            class:is-incorrect={!isAnswerCorrect && showCorrectAnswer && userAnswer === option.charAt(0)}
+          >
+            {option}
+          </label>
+        </div>
+      {/each}
     </div>
 
-    {#if currentPuzzleIndex < puzzles.length}
-      <div class="mb-6">
-        <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">
-          Puzzle {currentPuzzleIndex + 1}
-        </h3>
-        <div class="embed-responsive aspect-ratio-16/9 mb-4">
-          <iframe
-            class="embed-responsive-item w-full h-full"
-            src={puzzles[currentPuzzleIndex].videoLink}
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          ></iframe>
-        </div>
+    {#if showCorrectAnswer}
+      <div class="feedback">
+        {#if isAnswerCorrect}
+          <p>Sehr gut! 🎉</p>
+        {:else}
+          <p class="mb-4">Leider falsch. Die richtige Antwort ist: <strong>{puzzles[currentPuzzleIndex].correctAnswer}</strong></p>
+        {/if}
+        <p class="mb-4">{puzzles[currentPuzzleIndex].explanation}</p>
+        <button class="btn" on:click={handleNext}>Nächste Frage</button>
       </div>
-      <div class="mb-6">
-        <h3 class="text-lg text-gray-800 dark:text-gray-200">
-          {puzzles[currentPuzzleIndex].question}
-        </h3>
-      </div>
-      <div class="mb-6">
-        <Label for="sv-input">Some label</Label>
-        <Input
-          id="sv-input"
-          class="border border-gray-300 dark:border-gray-600 p-2 w-full rounded bg-gray-50 dark:bg-gray-700 dark:text-gray-200"
-          type="text"
-          bind:value={userAnswer}
-          placeholder="Your answer"
-        />
-      </div>
-      <div class="flex justify-between items-center">
-        <button
-          class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors"
-          on:click={handleSubmit}
-        >
-          Submit
-        </button>
-        <button
-          class="bg-gray-600 text-white py-2 px-4 rounded hover:bg-gray-700 transition-colors"
-          on:click={handleShowHint}
-        >
-          Hint
-        </button>
-      </div>
-      {#if showHint}
-        <div class="mt-4 text-gray-600 dark:text-gray-400">
-          <p>Hint: {puzzles[currentPuzzleIndex].hint}</p>
-        </div>
-      {/if}
     {:else}
-      <div class="mb-6">
-        <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">
-          Congratulations! You've escaped!
-        </h2>
-        <p>
-          You answered {correctAnswersCount} out of {puzzles.length} questions correctly.
-        </p>
+      <div class="quiz-footer">
+        <button class="btn" on:click={handleSubmit}>Abgeben</button>
       </div>
     {/if}
-  </div>
+  {:else}
+    <div class="question">
+      {puzzles[currentPuzzleIndex].question}
+    </div>
+    <div class="options-container">
+      <Input
+        id="final-answer"
+        class="border border-gray-300 dark:border-gray-600 p-2 w-full rounded bg-gray-50 dark:bg-gray-700 dark:text-gray-200"
+        type="text"
+        bind:value={finalAnswer}
+        placeholder="Deine Antwort"
+      />
+    </div>
+
+    {#if showFinalFeedback}
+      <div class="feedback">
+        {#if isAnswerCorrect}
+          <p>Genau! Du hast ein coin verdient! 🎉</p>
+        {:else}
+          <p class="mb-5">Leider Falsch. Die richtige Antwort ist: <strong>{puzzles[currentPuzzleIndex].correctAnswer}</strong></p>
+        {/if}
+        <button class="btn" on:click={handleNext}>Beenden</button>
+      </div>
+    {:else}
+      <div class="quiz-footer">
+        <button class="btn" on:click={handleSubmit}>Abgeben</button>
+      </div>
+    {/if}
+  {/if}
 </div>
 
+
 <style>
-    .embed-responsive {
-        position: relative;
-        display: block;
-        width: 100%;
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
         padding: 0;
-        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #333;
     }
-    .embed-responsive::before {
-        content: "";
+
+    .quiz-container {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        padding: 12rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .quiz-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+
+    .quiz-header h2 {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #1976d2;
+    }
+
+    .toggle-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 2rem;
+    }
+
+    .toggle-container span {
+        font-size: 1rem;
+        margin-left: 0.5rem;
+        color: #757575;
+    }
+
+    .question {
+        font-size: 1.5rem;
+        font-weight: 500;
+        margin-bottom: 1.5rem;
+        color: #333;
+    }
+
+    .options-container {
+        margin-bottom: 2rem;
+    }
+
+    .options-container label {
         display: block;
-        padding-top: 56.25%; /* 16:9 aspect ratio */
+        background: #f5f5f5;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        transition: background 0.3s, transform 0.2s;
+        cursor: pointer;
+        font-size: 1rem;
+        color: #333;
+        border: 2px solid transparent;
     }
-    .embed-responsive-item {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border: 0;
+
+    .options-container label:hover {
+        background: #e3f2fd;
+        transform: scale(1.03);
+    }
+
+    .options-container input[type="radio"] {
+        display: none;
+    }
+
+    .options-container input[type="radio"]:checked + label {
+        background: #bbdefb;
+        border: 2px solid #1976d2;
+    }
+
+    .quiz-footer {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    .btn {
+        background: #1976d2;
+        border: none;
+        color: #fff;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 500;
+        transition: background 0.3s, transform 0.2s;
+    }
+
+    .btn:hover {
+        background: #1565c0;
+        transform: scale(1.05);
+    }
+
+    .feedback {
+        margin-top: 2rem;
+        padding: 1rem;
+        border-radius: 8px;
+        background: #e3f2fd;
+        color: #333;
+        font-size: 1rem;
+    }
+
+    @media (max-width: 1024px) {
+        .quiz-container {
+            padding: 1.5rem;
+        }
+
+        .quiz-header h2 {
+            font-size: 1.5rem;
+        }
+
+        .question {
+            font-size: 1.25rem;
+        }
+
+        .quiz-footer .btn {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
     }
 </style>
+
+

@@ -7,8 +7,12 @@
   import FakeImage from "./FakeImage.svelte";
 </script>
 
+
+<body>
+
 <main class="grid grid-rows-[50px_1fr_100px] h-full">
   <img alt="" class="mx-auto aspect-auto max-w-[4rem]" src={NetLogo} />
-<!--  <Escape />-->
-  <FakeImage />
+  <Escape />
+  <!--  <FakeImage />-->
 </main>
+</body>
